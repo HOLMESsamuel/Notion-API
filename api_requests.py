@@ -1,7 +1,7 @@
 import requests
 import configparser
 
-url = "https://api.notion.com/v1/blocks/be49b29265bb43808cbc3953f5f5cb2f/children?page_size=100"
+base_url = "https://api.notion.com/v1/blocks/"
 
 config_obj = configparser.ConfigParser()
 config_obj.read('./config.ini')
@@ -17,5 +17,6 @@ headers = {
 
 
 def retrieve_block():
+    url = base_url + ids["personal_home_page_id"] + "/children?page_size=100"
     response = requests.request("GET", url, headers=headers)
-    print(response.text)
+    return response.text
