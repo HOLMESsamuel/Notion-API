@@ -1,12 +1,11 @@
 import json
 
-from api_requests import retrieve_block
-
-
-def print_block():
-    block_json_data = json.loads(retrieve_block())
-    print(json.dumps(block_json_data, indent=4))
-
+from NotionAPIClient import NotionAPIClient
+from printing import print_block
 
 if __name__ == '__main__':
-    print_block()
+    client = NotionAPIClient()
+    response = client.retrieve_block()
+    if response is not None:
+        block_json_data = json.loads(response)
+        print_block(json.dumps(block_json_data, indent=4))
