@@ -16,7 +16,7 @@ class NotionAPIClient(object):
         self.session = NotionAPISession()
 
     def retrieve_block(self):
-        url = base_url + ids["personal_home_page_id"] + "/children?page_size=100"
+        url = base_url + ids["test_page"] + "/children?page_size=100"
         response = self.session.request("GET", url, headers=self.session.headers)
         if response.status_code > 400:
             handle_error(response.text)
