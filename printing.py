@@ -9,5 +9,7 @@ def print_block(block):
     print(block.id)
     print(block.has_children)
     print(block.type)
+    if block.type == "paragraph":
+        print(block.content)
 
     print("\n")

@@ -1,4 +1,4 @@
-from objects.Block import Block
+from objects.Block import append_block
 
 
 class Page:
@@ -6,5 +6,5 @@ class Page:
         results = json_page["results"]
         blocks = []
         for block in results:
-            blocks.append(Block(block))
+            append_block(blocks, block)
         self.blocks = blocks
