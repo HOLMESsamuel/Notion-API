@@ -1,4 +1,7 @@
+import json
+
 import constants
+from NotionAPIClient import NotionAPIClient
 
 
 class Block:
@@ -16,14 +19,32 @@ class Block:
             pass
 
 
+def append_blocks(blocks, results):
+    for block in results:
+        append_block(blocks, block)
+    return blocks
+
+
 def append_block(blocks, block):
+    client = NotionAPIClient()
     block_type = block["type"]
     if block_type == constants.PARAGRAPH:
         block = Paragraph(block)
     elif block_type == constants.HEADING_2:
         block = Heading2(block)
+    elif block_type == constants.TOGGLE:
+        block = Toggle(block)
     else:
         block = Block(block)
+
+    if block.has_children:
+        response = client.retrieve_block(block.id)
+        if response is not None:
+            page_json_data = json.loads(response)
+            results = page_json_data["results"]
+            #pourquoi blocks devient none ici
+            blocks = blocks.append(block)
+            return append_blocks(blocks, results)
     return blocks.append(block)
 
 
@@ -34,6 +55,12 @@ class Paragraph(Block):
 
 
 class Heading2(Block):
+    def __init__(self, block):
+        super().__init__(block)
+        super().set_content(block)
+
+
+class Toggle(Block):
     def __init__(self, block):
         super().__init__(block)
         super().set_content(block)
