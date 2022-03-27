@@ -34,6 +34,8 @@ def append_block(blocks, block):
         block = Heading2(block)
     elif block_type == constants.TOGGLE:
         block = Toggle(block)
+    elif block_type == constants.BULLETED_LIST_ITEM:
+        block = BulletedListItem(block)
     else:
         block = Block(block)
 
@@ -42,8 +44,7 @@ def append_block(blocks, block):
         if response is not None:
             page_json_data = json.loads(response)
             results = page_json_data["results"]
-            #pourquoi blocks devient none ici
-            blocks = blocks.append(block)
+            blocks.append(block)
             return append_blocks(blocks, results)
     return blocks.append(block)
 
@@ -61,6 +62,12 @@ class Heading2(Block):
 
 
 class Toggle(Block):
+    def __init__(self, block):
+        super().__init__(block)
+        super().set_content(block)
+
+
+class BulletedListItem(Block):
     def __init__(self, block):
         super().__init__(block)
         super().set_content(block)
